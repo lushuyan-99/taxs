@@ -1,0 +1,70 @@
+<template>
+	<div class="header">
+		<div class="title">自然人电子税务局(扣缴端)</div>
+		<div class="header-menus">
+			<div class="menus-item">
+				<i class="el-icon-document"></i>
+				<span>版本切换</span>
+			</div>
+			<div class="menus-item">
+				<i class="el-icon-document"></i>
+				<span>操作手册</span>
+			</div>
+			<div class="menus-item">
+				<i class="el-icon-message"></i>
+				<span>消息中心</span>
+			</div>
+			<div class="menus-item">
+				<i class="el-icon-tickets"></i>
+				<span>单位管理</span>
+			</div>
+		</div>
+		
+	</div>
+</template>
+
+<script>
+	// import HelloWorld from '@/components/HelloWorld.vue'
+
+	export default {
+		name: 'Header',
+		components: {
+
+		}
+	}
+</script>
+<style lang="less" scoped>
+	.header {
+		height: 80px;
+		background: #009EFF;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		.title{
+			font-size: 24px;
+			color: #fff;
+			padding-left: 60px;
+			line-height: 60px;
+			background: url(../assets/logo.png) no-repeat 0px center;
+			background-size: 60px 60px;
+		}
+		.header-menus{
+			float: right;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 60px;
+			line-height: 60px;
+			justify-content: space-between;
+			.menus-item{
+				color: #fff;
+				padding: 0px 10px;
+				cursor: pointer;
+				/deep/ i{
+					margin-right: 6px;
+				}
+			}
+		}
+	}
+</style>
