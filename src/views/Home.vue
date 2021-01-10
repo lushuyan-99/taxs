@@ -105,7 +105,7 @@
 								title: '缴税记录查询',
 								disabled: false,
 								icon:'el-icon-pie-chart',
-								path:'/'
+								path:'/Index'
 							}
 						]
 					},{
@@ -141,7 +141,7 @@
 		right: 0px;
 		bottom: 0;
 		top: 80px;
-
+		overflow: hidden;
 		.home-aside {
 			width: 210px !important;
 			border-right: 1px solid #e6e6e6;

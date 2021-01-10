@@ -23,7 +23,7 @@
 				<div class="fun-con">
 					<div class="fun-items">
 						<div class="item-pic">
-							<img src="../../assets/img/icon_home.png" />
+							<img src="../../assets/img/home_icon1.png" />
 						</div>
 						<div>
 							<div class="item-pic-top">人员信息采集</div>
@@ -32,47 +32,47 @@
 					</div>
 					<div class="fun-items">
 						<div class="item-pic">
-							<img src="../../assets/img/icon_home.png" />
+							<img src="../../assets/img/home_icon2.png" />
 						</div>
 						<div>
-							<div class="item-pic-top">人员信息采集</div>
-							<div class="item-pic-info">自然人基础信息登记、报送和公安系统身份验证</div>
+							<div class="item-pic-top">专项附加扣除信息采集</div>
+							<div class="item-pic-info">子女教育支出、住房租金支出等信息采集</div>
 						</div>
 					</div>
 					<div class="fun-items">
 						<div class="item-pic">
-							<img src="../../assets/img/icon_home.png" />
+							<img src="../../assets/img/home_icon3.png" />
 						</div>
 						<div>
-							<div class="item-pic-top">人员信息采集</div>
-							<div class="item-pic-info">自然人基础信息登记、报送和公安系统身份验证</div>
+							<div class="item-pic-top">综合所得申报</div>
+							<div class="item-pic-info">工资薪金、劳务报酬、稿酬、特许权使用费等月度申报</div>
 						</div>
 					</div>
 					<div class="fun-items">
 						<div class="item-pic">
-							<img src="../../assets/img/icon_home.png" />
+							<img src="../../assets/img/home_icon4.png" />
 						</div>
 						<div>
-							<div class="item-pic-top">人员信息采集</div>
-							<div class="item-pic-info">自然人基础信息登记、报送和公安系统身份验证</div>
+							<div class="item-pic-top">分类所得申报</div>
+							<div class="item-pic-info">利息股息红利、财产租赁、财产转让等月度申报</div>
 						</div>
 					</div>
 					<div class="fun-items">
 						<div class="item-pic">
-							<img src="../../assets/img/icon_home.png" />
+							<img src="../../assets/img/home_icon5.png" />
 						</div>
 						<div>
-							<div class="item-pic-top">人员信息采集</div>
-							<div class="item-pic-info">自然人基础信息登记、报送和公安系统身份验证</div>
+							<div class="item-pic-top">非居民所得申报</div>
+							<div class="item-pic-info">工资薪金、劳务报酬、稿酬、特许权使用费等月度申报</div>
 						</div>
 					</div>
 					<div class="fun-items">
 						<div class="item-pic">
-							<img src="../../assets/img/icon_home.png" />
+							<img src="../../assets/img/home_icon6.png" />
 						</div>
 						<div>
-							<div class="item-pic-top">人员信息采集</div>
-							<div class="item-pic-info">自然人基础信息登记、报送和公安系统身份验证</div>
+							<div class="item-pic-top">税款缴纳</div>
+							<div class="item-pic-info">个人所得税税款在线缴纳</div>
 						</div>
 					</div>
 				</div>
@@ -189,6 +189,7 @@
 						flex-direction: row;
 						align-items: center;
 						margin-bottom: 10px;
+						cursor: pointer;
 						.item-pic{
 							width: 48px;
 							height: 48px;
@@ -198,6 +199,9 @@
 							border-radius: 50%;
 							background: #EAF4FF;
 							margin: 0px 10px 0px 4px;
+							img{
+								margin-top: 10px;
+							}
 						}
 						.item-pic-top{
 							color: #333;

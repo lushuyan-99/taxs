@@ -44,9 +44,9 @@
 		.title{
 			font-size: 24px;
 			color: #fff;
-			padding-left: 60px;
+			padding-left: 80px;
 			line-height: 60px;
-			background: url(../assets/logo.png) no-repeat 0px center;
+			background: url(../assets/img/logo.png) no-repeat 10px center;
 			background-size: 60px 60px;
 		}
 		.header-menus{
