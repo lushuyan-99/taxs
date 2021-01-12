@@ -18,6 +18,10 @@
 				<i class="el-icon-tickets"></i>
 				<span>单位管理</span>
 			</div>
+			<div class="menus-item">
+				<i class="icon-online"></i>
+				<span>在线</span>
+			</div>
 		</div>
 		
 	</div>
@@ -61,9 +65,22 @@
 				color: #fff;
 				padding: 0px 10px;
 				cursor: pointer;
+				display: flex;
+				align-items: center;
+				font-size: 14px;
+				.icon-online{
+					display: inline-block;
+					width: 16px;
+					height: 16px;
+					background: url(../assets/img/icon_online.png) no-repeat left 0px;
+				}
 				/deep/ i{
 					margin-right: 6px;
 				}
+			}
+			.menus-item:hover{
+				background: #22a1ef;
+				border-radius: 6px;
 			}
 		}
 	}

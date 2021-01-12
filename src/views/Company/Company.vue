@@ -23,7 +23,7 @@
         </div>
         <div class="right">
           <el-button type="primary" @click="onSubmit">查询</el-button>
-          <el-button type="primary" @click="resetC">重置</el-button>
+          <el-button  @click="resetC" type="primary" plain>重置</el-button>
           <el-button type="primary" @click="exportC">导出</el-button>
           <el-button type="primary" @click="exportProve"
             >导出完税证明开具</el-button
@@ -38,12 +38,13 @@
           row-key="id"
           height="300"
           default-expand-all
-          show-summary
-          :summary-method="getSummaries"
           :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
           ref="table"
+          :header-cell-style="{background:'#F4F6F9'}"
         >
-          <el-table-column prop="skssq" label="税款所属期"> </el-table-column>
+        <!--  show-summary
+          :summary-method="getSummaries"  -->
+          <el-table-column prop="skssq" label="税款所属期" width="180px"> </el-table-column>
           <el-table-column prop="sbrc" label="申报人次"> </el-table-column>
           <el-table-column prop="dqsr" label="当期收入"> </el-table-column>
           <el-table-column prop="ybse" label="应补（退）税额" width="180">
@@ -84,7 +85,7 @@
             <el-button class="btn-right">收折查询条件</el-button>
           </span>
           <div class="dialogC-Content">
-            <el-form :inline="true" class="demo-form-inline">
+            <el-form :inline="true" class="demo-form-inline" style="display: flex;">
               <el-form-item label="所得项目：">
                 <el-input placeholder="审批人"></el-input>
               </el-form-item>
@@ -93,7 +94,7 @@
               </el-form-item>
               <el-form-item label="证件类型：">
                 <el-select placeholder="证件类型" v-model="IdType">
-                  <el-option label="请选择"></el-option>
+                  <el-option label="请选择" value="11"></el-option>
                   <el-option label="居民身份证" value="jmsfz"></el-option>
                   <el-option label="中国护照" value="zghz"></el-option>
                   <el-option
@@ -127,86 +128,22 @@
           <div class="dialogC-table">
             <el-table
               :data="dialogTData"
-              :show-summary='showSummary'
+              show-summary
+              :summary-method="getSummaries2"
               border
               style="width: 100%"
               height="400px"
+             :header-cell-style="{background:'#F4F6F9'}"
             >
-              <el-table-column fixed="left" prop="id" label="序号">
-              </el-table-column>
-              <el-table-column fixed="left" prop="name" label="姓名">
-              </el-table-column>
-              <el-table-column prop="idType" label="身份证类型" width="100px">
-              </el-table-column>
-              <el-table-column prop="idCode" label="身份证号码">
-              </el-table-column>
-              <el-table-column prop="idCode2" label="纳税人识别号">
-              </el-table-column>
-              <el-table-column prop="sfjmgr" label="是否为非居民个人">
-              </el-table-column>
-              <el-table-column prop="sdxm" label="所得项目"> </el-table-column>
-              <el-table-column prop="bqsr" label="本期收入"> </el-table-column>
-              <el-table-column prop="bqfy" label="本期费用"> </el-table-column>
-              <el-table-column prop="bqmssr" label="本期免税收入">
-              </el-table-column>
-              <el-table-column prop="bqjcfy" label="本期减除费用">
-              </el-table-column>
-              <el-table-column prop="bqjbylbxf" label="本期基本养老保险费">
-              </el-table-column>
-              <el-table-column prop="bqjbylbxf2" label="本期基本医疗保险费">
-              </el-table-column>
-              <el-table-column prop="bqsybxf" label="本期失业保险费">
-              </el-table-column>
-              <el-table-column prop="bqzfgjj" label="本期住房公积金">
-              </el-table-column>
-              <el-table-column prop="bqnj" label="本期年金"> </el-table-column>
-              <el-table-column prop="bqsyjkbx" label="本期商业健康保险">
-              </el-table-column>
-              <el-table-column prop="bqsyylbx" label="本期税延养老保险">
-              </el-table-column>
-              <el-table-column prop="bqccyz" label="本期财产原值">
-              </el-table-column>
-              <el-table-column prop="bqyxkcsj" label="本期允许扣除的税费">
-              </el-table-column>
-              <el-table-column prop="bqqt" label="本期其他">
-                300
-              </el-table-column>
-              <el-table-column prop="ljsre" label="累计收入额">
-                工资*月份
-              </el-table-column>
-              <el-table-column prop="ljjcfy" label="累计减除费用">
-                300*月份
-              </el-table-column>
-              <el-table-column prop="ljzxkc" label="累计专项扣除">
-              </el-table-column>
-              <el-table-column prop="ljznjy" label="累计子女教育">
-              </el-table-column>
-              <el-table-column prop="ljsylr" label="累计赡养老人">
-              </el-table-column>
-              <el-table-column prop="ljzfdklx" label="累计住房贷款利息">
-              </el-table-column>
-              <el-table-column prop="ljzfzj" label="累计住房租金">
-              </el-table-column>
-              <el-table-column prop="ljjxjy" label="累计继续教育">
-              </el-table-column>
-              <el-table-column prop="ljqtkc" label="累计其他扣除">
-                300*月份
-              </el-table-column>
-              <el-table-column prop="jajsbl" label="减按计税比例">
-              </el-table-column>
-              <el-table-column prop="zykcjze" label="准予扣除的捐赠额">
-              </el-table-column>
-              <el-table-column prop="ynssde" label="应纳税所得额">
-              </el-table-column>
-              <el-table-column prop="slykl" label="税率/预扣率">
-              </el-table-column>
-              <el-table-column prop="sskcs" label="速算扣除数">
-              </el-table-column>
-              <el-table-column prop="ynse" label="应纳税额"> </el-table-column>
-              <el-table-column prop="jmse" label="减免税额"> </el-table-column>
-              <el-table-column prop="yjse" label="已缴税额"> </el-table-column>
-              <el-table-column prop="ybtse" label="应退补税额">
-              </el-table-column>
+              <el-table-column
+                v-for="column in dialogColumns"
+                :prop="column.dataIndex"
+                :label="column.title"
+                sortable="custom"
+                :key="column.field"
+                :width="column.width"
+              >
+              </el-table-column>            
             </el-table>
           </div>
         </div>
@@ -215,15 +152,28 @@
   </div>
 </template>
 <script>
-import { data1, data2, data3 } from "../../js/dateMsg";
+import {
+  data1,
+  data2,
+  data3,
+  data4,
+  data5,
+  data6,
+  data7,
+  data8,
+  data9,
+  data10,
+  data11,
+  data12,
+} from "../../js/dateMsg";
 export default {
   name: "Company",
   data() {
     return {
       date: "",
       centerDialogVisible: false,
-      tableData:[],
-      showSummary:false,
+      tableData: [],
+      showSummary: false,
       tableDataMM: [
         {
           id: 1,
@@ -297,38 +247,263 @@ export default {
             },
           ],
         },
+        {
+          id: 4,
+          skssq: "2020年4月",
+          sbrc: "197",
+          dqsr: "944757.65",
+          ybse: "0",
+          sblx: "--",
+          sbqd: "--",
+          sbsj: "--",
+          action: "",
+          children: [
+            {
+              id: 41,
+              skssq: "2020年4月",
+              sbrc: "197",
+              dqsr: "944757.65",
+              ybse: "0",
+              sblx: "正常申报",
+              sbqd: "客户端",
+              sbsj: "2020-05-25",
+              action: "查看明细",
+            },
+          ],
+        },
+        {
+          id: 5,
+          skssq: "2020年5月",
+          sbrc: "201",
+          dqsr: "972427.17",
+          ybse: "0",
+          sblx: "--",
+          sbqd: "--",
+          sbsj: "--",
+          action: "",
+          children: [
+            {
+              id: 51,
+              skssq: "2020年5月",
+              sbrc: "201",
+              dqsr: "972427.17",
+              ybse: "0",
+              sblx: "正常申报",
+              sbqd: "客户端",
+              sbsj: "2020-06-25",
+              action: "查看明细",
+            },
+          ],
+        },
+        {
+          id: 6,
+          skssq: "2020年6月",
+          sbrc: "201",
+          dqsr: "980176.33",
+          ybse: "0",
+          sblx: "--",
+          sbqd: "--",
+          sbsj: "--",
+          action: "",
+          children: [
+            {
+              id: 61,
+              skssq: "2020年6月",
+              sbrc: "201",
+              dqsr: "980176.33",
+              ybse: "0",
+              sblx: "正常申报",
+              sbqd: "客户端",
+              sbsj: "2020-07-25",
+              action: "查看明细",
+            },
+          ],
+        },
+        {
+          id: 7,
+          skssq: "2020年7月",
+          sbrc: "201",
+          dqsr: "980176.33",
+          ybse: "0",
+          sblx: "--",
+          sbqd: "--",
+          sbsj: "--",
+          action: "",
+          children: [
+            {
+              id: 71,
+              skssq: "2020年7月",
+              sbrc: "201",
+              dqsr: "980176.33",
+              ybse: "0",
+              sblx: "正常申报",
+              sbqd: "客户端",
+              sbsj: "2020-08-25",
+              action: "查看明细",
+            },
+          ],
+        },
+        {
+          id: 8,
+          skssq: "2020年8月",
+          sbrc: "201",
+          dqsr: "980176.33",
+          ybse: "0",
+          sblx: "--",
+          sbqd: "--",
+          sbsj: "--",
+          action: "",
+          children: [
+            {
+              id: 81,
+              skssq: "2020年8月",
+              sbrc: "201",
+              dqsr: "980176.33",
+              ybse: "0",
+              sblx: "正常申报",
+              sbqd: "客户端",
+              sbsj: "2020-09-25",
+              action: "查看明细",
+            },
+          ],
+        },
+        {
+          id: 9,
+          skssq: "2020年9月",
+          sbrc: "201",
+          dqsr: "980176.33",
+          ybse: "0",
+          sblx: "--",
+          sbqd: "--",
+          sbsj: "--",
+          action: "",
+          children: [
+            {
+              id: 91,
+              skssq: "2020年9月",
+              sbrc: "201",
+              dqsr: "980176.33",
+              ybse: "0",
+              sblx: "正常申报",
+              sbqd: "客户端",
+              sbsj: "2020-10-25",
+              action: "查看明细",
+            },
+          ],
+        },
+        {
+          id: 10,
+          skssq: "2020年10月",
+          sbrc: "201",
+          dqsr: "980176.33",
+          ybse: "0",
+          sblx: "--",
+          sbqd: "--",
+          sbsj: "--",
+          action: "",
+          children: [
+            {
+              id: 101,
+              skssq: "2020年10月",
+              sbrc: "201",
+              dqsr: "980176.33",
+              ybse: "0",
+              sblx: "正常申报",
+              sbqd: "客户端",
+              sbsj: "2020-11-25",
+              action: "查看明细",
+            },
+          ],
+        },
+        {
+          id: 11,
+          skssq: "2020年11月",
+          sbrc: "201",
+          dqsr: "980176.33",
+          ybse: "0",
+          sblx: "--",
+          sbqd: "--",
+          sbsj: "--",
+          action: "",
+          children: [
+            {
+              id: 111,
+              skssq: "2020年11月",
+              sbrc: "201",
+              dqsr: "980176.33",
+              ybse: "0",
+              sblx: "正常申报",
+              sbqd: "客户端",
+              sbsj: "2020-12-25",
+              action: "查看明细",
+            },
+          ],
+        },
+        {
+          id: 12,
+          skssq: "2020年12月",
+          sbrc: "201",
+          dqsr: "980176.33",
+          ybse: "0",
+          sblx: "--",
+          sbqd: "--",
+          sbsj: "--",
+          action: "",
+          children: [
+            {
+              id: 121,
+              skssq: "2020年12月",
+              sbrc: "201",
+              dqsr: "980176.33",
+              ybse: "0",
+              sblx: "正常申报",
+              sbqd: "客户端",
+              sbsj: "2021-01-25",
+              action: "查看明细",
+            },
+          ],
+        },
       ],
       dialogTData: [],
       IdType: "",
       name: "",
       dataCollection: {},
+      dialogColumns: [],
     };
   },
   components: {},
   created() {
-    this.dataCollection = { data1: data1, data2, data3 };
+    this.dataCollection = {
+      data1: data1,
+      data2,
+      data3,
+      data4,
+      data5,
+      data6,
+      data7,
+      data8,
+      data9,
+      data10,
+      data11,
+      data12,
+    };
     console.log(this.dataCollection);
+    this.datachange();
   },
   methods: {
-    onSubmit() {  //我是查询单位的月份
-      console.log(this.date)
-      console.log(this.date[0])
-      console.log(this.date[1])
-      let a = this.date[0].substring(5)
-      let b = this.date[1].substring(5)
-      console.log(a-1,b-1)
-      console.log(this.tableDataMM[a-1])
-      console.log(this.tableDataMM.slice(a-1,b))
-      if(a===b){
-        this.tableData = this.tableDataMM[a-1]
-      }else{
-        this.tableData = this.tableDataMM.slice(a-1,b)
+    onSubmit() {
+      //我是查询单位的月份
+      let a = this.date[0].substring(5);
+      let b = this.date[1].substring(5);
+      if (a === b) {
+        this.tableData = this.tableDataMM[a - 1];
+      } else {
+        this.tableData = this.tableDataMM.slice(a - 1, b);
       }
-      this.showSummary = true
-      
-     this.$nextTick(() => {
-        this.$refs['table'].doLayout();
-     }) 
+      this.showSummary = true;
+      this.$nextTick(() => {
+        this.$refs["table"].doLayout();
+      });
     },
     resetC() {
       console.log(111);
@@ -365,34 +540,275 @@ export default {
         ljjcfy: 300 * 3,
         ljqtkc: 300 * 3,
       };
-      // let data4Msg = {'ljsre':data1.bqsr*4,'bqqt':300,ljjcfy:300*4,ljqtkc:300*4}
-      // let data5Msg = {'ljsre':data1.bqsr*5,'bqqt':300,ljjcfy:300*5,ljqtkc:300*5}
-      // let data6Msg = {'ljsre':data1.bqsr*6,'bqqt':300,ljjcfy:300*6,ljqtkc:300*6}
-      // let data7Msg = {'ljsre':data1.bqsr*7,'bqqt':300,ljjcfy:300*7,ljqtkc:300*7}
-      // let data8Msg = {'ljsre':data1.bqsr*8,'bqqt':300,ljjcfy:300*8,ljqtkc:300*8}
-      // let data9Msg = {'ljsre':data1.bqsr*9,'bqqt':300,ljjcfy:300*9,ljqtkc:300*9}
-      // let data10Msg = {'ljsre':data1.bqsr*10,'bqqt':300,ljjcfy:300*10,ljqtkc:300*10}
-      // let data11Msg = {'ljsre':data1.bqsr*11,'bqqt':300,ljjcfy:300*11,ljqtkc:300*11}
-      // let data12Msg = {'ljsre':data1.bqsr*12,'bqqt':300,ljjcfy:300*12,ljqtkc:300*12}
+      let data4Msg = {
+        ljsre: data1.bqsr * 4,
+        bqqt: 300,
+        ljjcfy: 300 * 4,
+        ljqtkc: 300 * 4,
+      };
+      let data5Msg = {
+        ljsre: data1.bqsr * 5,
+        bqqt: 300,
+        ljjcfy: 300 * 5,
+        ljqtkc: 300 * 5,
+      };
+      let data6Msg = {
+        ljsre: data1.bqsr * 6,
+        bqqt: 300,
+        ljjcfy: 300 * 6,
+        ljqtkc: 300 * 6,
+      };
+      let data7Msg = {
+        ljsre: data1.bqsr * 7,
+        bqqt: 300,
+        ljjcfy: 300 * 7,
+        ljqtkc: 300 * 7,
+      };
+      let data8Msg = {
+        ljsre: data1.bqsr * 8,
+        bqqt: 300,
+        ljjcfy: 300 * 8,
+        ljqtkc: 300 * 8,
+      };
+      let data9Msg = {
+        ljsre: data1.bqsr * 9,
+        bqqt: 300,
+        ljjcfy: 300 * 9,
+        ljqtkc: 300 * 9,
+      };
+      let data10Msg = {
+        ljsre: data1.bqsr * 10,
+        bqqt: 300,
+        ljjcfy: 300 * 10,
+        ljqtkc: 300 * 10,
+      };
+      let data11Msg = {
+        ljsre: data1.bqsr * 11,
+        bqqt: 300,
+        ljjcfy: 300 * 11,
+        ljqtkc: 300 * 11,
+      };
+      let data12Msg = {
+        ljsre: data1.bqsr * 12,
+        bqqt: 300,
+        ljjcfy: 300 * 12,
+        ljqtkc: 300 * 12,
+      };
       data1.assign(data1, data1Msg);
+      data2.assign(data2, data2Msg);
+      data3.assign(data3, data3Msg);
+      data4.assign(data4, data4Msg);
+      data5.assign(data5, data5Msg);
+      data6.assign(data6, data6Msg);
+      data7.assign(data7, data7Msg);
+      data8.assign(data8, data8Msg);
+      data9.assign(data9, data9Msg);
+      data10.assign(data10, data10Msg);
+      data11.assign(data11, data11Msg);
+      data12.assign(data12, data12Msg);
     },
     exportC() {},
     exportProve() {},
     handleAction(date, msg) {
       console.log(1111);
       let num = (date - 1) / 2 + 1; //获取正确的月份
-      console.log(num);
-      console.log(`data${num}`);
-      console.log(date);
-      console.log(msg);
       this.centerDialogVisible = true;
-      console.log(this.dataCollection);
+      let arry = [
+        {
+          dataIndex: "id",
+          title: "序号",
+          width: 80,
+        },
+        {
+          dataIndex: "name",
+          title: "姓名",
+          width: 80,
+        },
+        {
+          dataIndex: "idType",
+          title: "身份证类型",
+          width: 120,
+        },
+        {
+          dataIndex: "idCode",
+          title: "身份证号码",
+          width: 180,
+        },
+        {
+          dataIndex: "idCode2",
+          title: "纳税人识别号",
+          width: 180,
+        },
+        {
+          dataIndex: "sfjmgr",
+          title: "是否为非居民个人",
+          width: 180,
+        },
+        {
+          dataIndex: "sdxm",
+          title: "所得项目",
+          width: 160,
+        },
+        {
+          dataIndex: "bqsr",
+          title: "本期收入",
+          width: 200,
+        },
+        {
+          dataIndex: "bqfy",
+          title: "本期费用",
+          width: 120,
+        },
+        {
+          dataIndex: "bqmssr",
+          title: "本期免税收入",
+          width: 140,
+        },
+        {
+          dataIndex: "bqjcfy",
+          title: "本期减除费用",
+          width: 140,
+        },
+        {
+          dataIndex: "bqjbylbxf",
+          title: "本期基本养老保险费",
+          width: 200,
+        },
+        {
+          dataIndex: "bqjbylbxf2",
+          title: "本期基本医疗保险费",
+          width: 200,
+        },
+        {
+          dataIndex: "bqsybxf",
+          title: "本期失业保险费",
+          width: 200,
+        },
+        {
+          dataIndex: "bqzfgjj",
+          title: "本期住房公积金",
+          width: 200,
+        },
+        {
+          dataIndex: "bqnj",
+          title: "本期年金",
+          width: 100,
+        },
+        {
+          dataIndex: "bqsyjkbx",
+          title: "本期商业健康保险",
+          width: 200,
+        },
+        {
+          dataIndex: "bqccyz",
+          title: "本期税延养老保险",
+          width: 200,
+        },
+        {
+          dataIndex: "bqsyylbx",
+          title: "本期财产原值",
+          width: 200,
+        },
+        {
+          dataIndex: "bqyxkcsj",
+          title: "本期允许扣除的税费",
+          width: 210,
+        },
+        {
+          dataIndex: "bqqt",
+          title: "本期其他",
+          width: 120,
+        },
+        {
+          dataIndex: "ljsre",
+          title: "累计收入额",
+          width: 200,
+        },
+        {
+          dataIndex: "ljjcfy",
+          title: "累计减除费用",
+          width: 140,
+        },
+        {
+          dataIndex: "ljzxkc",
+          title: "累计专项扣除",
+          width: 200,
+        },
+        {
+          dataIndex: "ljznjy",
+          title: "累计子女教育",
+          width: 160,
+        },
+        {
+          dataIndex: "ljsylr",
+          title: "累计赡养老人",
+          width: 160,
+        },
+        {
+          dataIndex: "ljzfdklx",
+          title: "累计住房贷款利息",
+          width: 200,
+        },
+        {
+          dataIndex: "ljzfzj",
+          title: "累计住房租金",
+          width: 140,
+        },
+        {
+          dataIndex: "ljjxjy",
+          title: "累计继续教育",
+          width: 180,
+        },
+        {
+          dataIndex: "ljqtkc",
+          title: "累计其他扣除",
+          width: 180,
+        },
+        {
+          dataIndex: "jajsbl",
+          title: "减按计税比例",
+          width: 180,
+        },
+        {
+          dataIndex: "ynssde",
+          title: "应纳税所得额",
+          width: 180,
+        },
+        {
+          dataIndex: "slykl",
+          title: "税率/预扣率",
+          width: 170,
+        },
+        {
+          dataIndex: "sskcs",
+          title: "速算扣除数",
+          width: 130,
+        },
+        {
+          dataIndex: "ynse",
+          title: "应纳税额",
+          width: 100,
+        },
+        {
+          dataIndex: "jmse",
+          title: "减免税额",
+          width: 100,
+        },
+        {
+          dataIndex: "yjse",
+          title: "已缴税额",
+          width: 100,
+        },
+        {
+          dataIndex: "ybtse",
+          title: "应退补税额",
+          width: 120,
+        },
+      ];
+      this.dialogColumns = arry;
       this.dialogTData = this.dataCollection[`data${num}`];
     },
     search() {
-      console.log("这是查询");
-      console.log(this.name);
-      console.log(this.dialogTData);
       this.dialogTData.forEach((v) => {
         if (v.name === this.name) {
           console.log(v);
@@ -403,12 +819,9 @@ export default {
     getSummaries(param) {
       //合计
       const { columns, data } = param;
+      console.log(columns);
       const sums = [];
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = "总价";
-          return;
-        }
+      columns.forEach((column, index) => {       
         const values = data.map((item) => Number(item[column.property]));
         if (!values.every((value) => isNaN(value))) {
           sums[index] = values.reduce((prev, curr) => {
@@ -419,7 +832,38 @@ export default {
               return prev;
             }
           }, 0);
-          // sums[index] += " 元";
+          sums[index] = '--'
+        } else {
+          sums[index] = "--";
+        }
+      });
+
+      return sums;
+    },
+    getSummaries2(param) {
+      console.log(1111)
+      //合计
+      const { columns, data } = param;
+      console.log(columns);
+      const sums = [];
+      columns.forEach((column, index) => {   
+        if(index===0){
+         sums[index] = '合计'
+         return
+        }else if(index===3||index==4){
+           sums[index] = '--'
+           return
+        }   
+        const values = data.map((item) => Number(item[column.property]));
+        if (!values.every((value) => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr);
+            if (!isNaN(value)) {
+              return prev + curr;
+            } else {
+              return prev;
+            }
+          }, 0);
         } else {
           sums[index] = "--";
         }
@@ -434,6 +878,14 @@ export default {
 <style lang="less" scoped>
 .content {
   width: 100%;
+  /deep/.el-button{
+        height: 28px !important;
+    line-height: 28px !important;
+    padding: 0 6px;
+  }
+  /deep/.el-form--inline .el-form-item{
+    display: flex;
+  }
   .system_header {
     height: 32px;
     background: #fff;
@@ -456,8 +908,10 @@ export default {
     margin: 20px;
     .contentH {
       border: 1px solid #dddddd;
-      height: 60px;
-      line-height: 60px;
+      // border: 1px solid #ffff;
+      background-color: #ffff;
+      height: 57px;
+      line-height: 57px;
       .left {
         float: left;
         .mark {
@@ -494,10 +948,14 @@ export default {
     .dialogC-top {
       margin-top: 10px;
       .dialogC-Content {
-        background: #e6e6e6;
+        background: #F4F6F9;
         border: 1px solid #dddddd;
         padding: 10px 0;
-        overflow: hidden;
+        height: 85px;
+      /deep/  .el-form--inline .el-form-item__label {
+          float: none;
+          display: inline-block;
+          width: 100px!important;}
       }
       .dialogC-btn {
         text-align: right;

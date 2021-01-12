@@ -33,14 +33,16 @@
 					<div class="con-time">
 						<span class="red-text">*</span>
 						税款所属期：
-						<el-date-picker v-model="value1" 
+						<el-date-picker v-model="dates" 
 						 type="monthrange" 
 						 format="yyyy-MM"
                          value-format="yyyy-MM" 
 						 range-separator="至"
 						 start-placeholder="开始日期" 
 						 end-placeholder="结束日期"
-						 @change="getPickerTime">
+						 @change="getPickerTime"
+						 :default-value="DefaultShow"
+						 >
 						</el-date-picker>
 					</div>
 					<div class="el-row">
@@ -69,7 +71,7 @@
 			<div class="result-con">
 				<el-tabs v-model="activeName" @tab-click="handleClick">
 					<el-tab-pane label="汇总" name="first">
-						<el-table :data="tableData" id="tableData" ref='table' v-loading="loading" border :show-summary="isShowSummary" height="350" style="width: 100%;margin-top: 20px">
+						<el-table :data="tableData" id="tableData1" ref='table1' v-loading="loading" border :show-summary="isShowSummary" height="300" style="width: 100%;margin-top:10px">
 							<el-table-column fixed prop="date" label="税款所属期" width="120">
 							</el-table-column>
 							<el-table-column fixed prop="sdxm" label="所得项目" width="150">
@@ -114,21 +116,190 @@
 							<el-table-column prop="ybtse" label="应补(退)税额" width="120">
 							</el-table-column>
 						</el-table>
-					    <div class="scroll-bar" ref='scrollBar'>
-							<div class="scroll-inner" id="scrollInner"></div>
+					    <div class="scroll-bar" ref='scrollBar1'>
+							<div class="scroll-inner" id="scrollInner1"></div>
 						</div>
 					</el-tab-pane>
 					<el-tab-pane label="综合所得申报表" name="second">
-						
+						<el-table :data="tableData" id="tableData2" ref='table2' v-loading="loading" border :show-summary="isShowSummary" height="300" style="width: 100%;margin-top: 10px">
+							<el-table-column fixed prop="date" label="税款所属期" width="120">
+							</el-table-column>
+							<el-table-column fixed prop="sdxm" label="所得项目" width="150">
+							</el-table-column>
+							<el-table-column prop="bqsr" label="收入" width="150">
+							</el-table-column>
+							<el-table-column prop="bqmssr" label="免税收入">
+							</el-table-column>
+							<el-table-column prop="bqjcfy" label="减除费用">
+							</el-table-column>
+							<el-table-column prop="bqjbylbxf" label="基本养老保险费用" width="150">
+							</el-table-column>
+							<el-table-column prop="bqjbylbxf2" label="基本医疗保险费用" width="150">
+							</el-table-column>
+							<el-table-column prop="bqsybxf" label="失业保险费用" width="120">
+							</el-table-column>
+							<el-table-column prop="bqzfgjj" label="住房公积金" width="120">
+							</el-table-column>
+							<el-table-column prop="bqnj" label="年金">
+							</el-table-column>
+							<el-table-column prop="bqsyjkbx" label="商业健康保险" width="120">
+							</el-table-column>
+							<el-table-column prop="bqsyylbx" label="税延养老保险" width="120">
+							</el-table-column>
+							<el-table-column prop="bqqt" label="其他扣除">
+							</el-table-column>
+							<el-table-column prop="bqccyz" label="税前扣除项目财产原值" width="240">
+							</el-table-column>
+							<el-table-column prop="bqyxkcsj" label="税前扣除项目允许扣除的税费" width="240">
+							</el-table-column>
+							<!-- 不确定如下 -->
+							<el-table-column prop="ljqtkc" label="税前扣除项目其他" width="200">
+							</el-table-column>
+							<el-table-column prop="zykcjze" label="税前扣除项目准予扣除的捐赠额" width="240">
+							</el-table-column>
+							<el-table-column prop="jmse" label="减免税额">
+							</el-table-column>
+							<el-table-column prop="ynse" label="应扣缴税额" width="120">
+							</el-table-column>
+							<el-table-column prop="yjse" label="已缴税额">
+							</el-table-column>
+							<el-table-column prop="ybtse" label="应补(退)税额" width="120">
+							</el-table-column>
+						</el-table>
+						<div class="scroll-bar" ref='scrollBar2'>
+							<div class="scroll-inner" id="scrollInner2"></div>
+						</div>
 					</el-tab-pane>
 					<el-tab-pane label="分类所得申报表" name="third">
-						
+						<el-table :data="tableData3" id="tableData3" ref='table3' v-loading="loading" border :show-summary="isShowSummary" height="300" style="width: 100%;margin-top: 10px">
+							<el-table-column fixed prop="date" label="税款所属期" width="120">
+							</el-table-column>
+							<el-table-column fixed prop="sdxm" label="所得项目" width="150">
+							</el-table-column>
+							<el-table-column prop="bqsr" label="收入" width="150">
+							</el-table-column>
+							<el-table-column prop="bqmssr" label="免税收入">
+							</el-table-column>
+							<el-table-column prop="bqjcfy" label="税前扣除项目财产原值" width="200">
+							</el-table-column>
+							<el-table-column prop="bqjbylbxf" label="税前扣除项目允许扣除的税费" width="240">
+							</el-table-column>
+							<el-table-column prop="bqjbylbxf2" label="税前扣除项目其他" width="150">
+							</el-table-column>
+							<el-table-column prop="bqsybxf" label="减除费用" width="120">
+							</el-table-column>
+							<el-table-column prop="bqzfgjj" label="准予扣除的捐赠额" width="200">
+							</el-table-column>
+							<el-table-column prop="bqnj" label="减按计税比例" width="120">
+							</el-table-column>
+							<el-table-column prop="bqsyjkbx" label="应纳税所得额" width="120">
+							</el-table-column>
+							<el-table-column prop="bqsyylbx" label="税率%" width="120">
+							</el-table-column>
+							<el-table-column prop="bqqt" label="速算扣除数" width="120">
+							</el-table-column>
+							<el-table-column prop="bqccyz" label="应纳税额" width="240">
+							</el-table-column>
+							<el-table-column prop="bqyxkcsj" label="减免税额" width="240">
+							</el-table-column>
+							<!-- 不确定如下 -->
+							<el-table-column prop="ljqtkc" label="应扣缴税额" width="200">
+							</el-table-column>
+							<el-table-column prop="zykcjze" label="已缴税额" width="240">
+							</el-table-column>
+							<el-table-column prop="jmse" label="应补(退)税额">
+							</el-table-column>
+							<el-table-column prop="ynse" label="备注" width="120">
+							</el-table-column>
+						</el-table>
+						<div class="scroll-bar" ref='scrollBar3'>
+							<div class="scroll-inner" id="scrollInner3"></div>
+						</div>
 					</el-tab-pane>
 					<el-tab-pane label="非居民所得申报表" name="fourth">
-						
+						<el-table :data="tableData3" id="tableData4" ref='table4' v-loading="loading" border :show-summary="isShowSummary" height="300" style="width: 100%;margin-top: 10px">
+							<el-table-column fixed prop="date" label="税款所属期" width="120">
+							</el-table-column>
+							<el-table-column fixed prop="sdxm" label="所得项目" width="150">
+							</el-table-column>
+							<el-table-column prop="bqsr" label="收入" width="150">
+							</el-table-column>
+							<el-table-column prop="bqmssr" label="费用">
+							</el-table-column>
+							<el-table-column prop="bqjcfy" label="免税收入" width="200">
+							</el-table-column>
+							<el-table-column prop="bqjbylbxf" label="财产原值" width="240">
+							</el-table-column>
+							<el-table-column prop="bqjbylbxf2" label="允许扣除的税费" width="150">
+							</el-table-column>
+							<el-table-column prop="bqsybxf" label="其他税前扣除" width="120">
+							</el-table-column>
+							<el-table-column prop="bqzfgjj" label="税前扣除合计" width="200">
+							</el-table-column>
+							<el-table-column prop="bqnj" label="减除费用" width="120">
+							</el-table-column>
+							<el-table-column prop="bqsyjkbx" label="准予扣除的捐赠额" width="200">
+							</el-table-column>
+							<el-table-column prop="bqsyylbx" label="减按计税比例" width="120">
+							</el-table-column>
+							<el-table-column prop="bqqt" label="应纳税所得额" width="120">
+							</el-table-column>
+							<el-table-column prop="bqccyz" label="税率%" width="240">
+							</el-table-column>
+							<el-table-column prop="bqyxkcsj" label="速算扣除数" width="240">
+							</el-table-column>
+							<!-- 不确定如下 -->
+							<el-table-column prop="ljqtkc" label="协定税率" width="200">
+							</el-table-column>
+							<el-table-column prop="zykcjze" label="应纳税额" width="240">
+							</el-table-column>
+							<el-table-column prop="jmse" label="减免税额">
+							</el-table-column>
+							<el-table-column prop="zykcjze" label="已缴税额" width="240">
+							</el-table-column>
+							<el-table-column prop="jmse" label="应补(退)税额" width="120">
+							</el-table-column>
+							<el-table-column prop="ynse" label="备注" width="120">
+							</el-table-column>
+						</el-table>
+						<div class="scroll-bar" ref='scrollBar4'>
+							<div class="scroll-inner" id="scrollInner4"></div>
+						</div>
 					</el-tab-pane>
 					<el-tab-pane label="限售股所得申报表" name="five">
-						
+						<el-table :data="tableData3" id="tableData5" ref='table5' v-loading="loading" border :show-summary="isShowSummary" height="350" style="width: 100%;margin-top: 20px">
+							<el-table-column fixed prop="date" label="税款所属期" width="120">
+							</el-table-column>
+							<el-table-column fixed prop="sdxm" label="所得项目" width="150">
+							</el-table-column>
+							<el-table-column prop="bqsr" label="收入" width="150">
+							</el-table-column>
+							<el-table-column prop="bqmssr" label="证券账户号" width="150">
+							</el-table-column>
+							<el-table-column prop="bqjcfy" label="股票代码" width="200">
+							</el-table-column>
+							<el-table-column prop="bqjbylbxf" label="股票名称" width="240">
+							</el-table-column>
+							<el-table-column prop="bqjbylbxf2" label="每股计税价格(元/股)" width="150">
+							</el-table-column>
+							<el-table-column prop="bqsybxf" label="转让股份数(股)" width="120">
+							</el-table-column>
+							<el-table-column prop="bqzfgjj" label="转让收入额" width="200">
+							</el-table-column>
+							<el-table-column prop="bqnj" label="限售股原值及合理税费小计" width="250">
+							</el-table-column>
+							<el-table-column prop="bqsyjkbx" label="限售股原值" width="200">
+							</el-table-column>
+							<el-table-column prop="bqsyylbx" label="限售股合理税费" width="120">
+							</el-table-column>
+							<el-table-column prop="bqqt" label="应纳税所得额" width="120">
+							</el-table-column>
+							<el-table-column prop="bqccyz" label="扣缴税额" width="240">
+							</el-table-column>
+						</el-table>
+						<div class="scroll-bar" ref='scrollBar5'>
+							<div class="scroll-inner" id="scrollInner5"></div>
+						</div>
 					</el-tab-pane>
 				</el-tabs>
 			</div>
@@ -167,7 +338,7 @@
 		data() {
 			return {
 				showCommand: true,
-				value1: '', //选择时间
+				// value1: '', //选择时间
 				inputName: '',
 				inputCity: '',
 				inputCode: '',
@@ -176,7 +347,10 @@
 				originSourceList:[],  //原数据
 				tableData: [],  //查询过滤后的数据
 				dates:[],
-				isShowSummary:true
+				isShowSummary:true,
+				tableData3:[],
+				DefaultShow:''
+				// pickerOptions:
 			}
 		},
 		created() {
@@ -189,24 +363,50 @@
 			})
 			// 模拟表格滚动条
 			this.$nextTick(()=>{
-				document.getElementById("scrollInner").style.width = document.getElementById("tableData").querySelector(".el-table__header").style.width;
-				this.$refs.scrollBar.addEventListener('scroll', ()=>{
-					document.getElementById("tableData").querySelector(".el-table--scrollable-x .el-table__body-wrapper").scrollLeft = this.$refs.scrollBar.scrollLeft
-				})
-				this.$refs.scrollBar.addEventListener('resize', ()=>{
-					document.getElementById("tableData").querySelector(".el-table--scrollable-x .el-table__body-wrapper").scrollLeft = this.$refs.scrollBar.scrollLeft
-				})
-				
-				// this.$refs("table")
+				this.resizeScroll(1);
 			})
-			 
+			
+			// 打开时间选择面板时 默认显示2020年的
+			this.DefaultShow = new Date();
+			this.DefaultShow.setMonth(new Date().getMonth() - 7);
+			
+			
+			 this.dates= ['2020-01', '2020-12']  // 默认赋值一年时间
 		},
 		methods: {
 			handleCommand(command) {
 				// this.shFlag = command;
 			}, 
 			handleClick(tab, event) {
-				console.log(tab, event);
+				let index = tab.index;  //点击的哪一个
+				switch (index) {
+					case '0':
+					this.resizeScroll(1)
+					break;
+					case '1':
+					this.resizeScroll(2)
+					break;
+					case '2':
+					this.resizeScroll(3)
+					break;
+					case '3':
+					this.resizeScroll(4)
+					break;
+					case '4':
+					this.resizeScroll(5)
+					break;
+				}
+			},
+			// 滚动条重置操作
+			resizeScroll(index){
+				document.getElementById(`scrollInner${index}`).style.width = document.getElementById(`tableData${index}`).querySelector(".el-table__header").style.width;
+				let scrollBar = `scrollBar${index}`;
+				this.$refs[scrollBar].addEventListener('scroll', ()=>{
+					document.getElementById(`tableData${index}`).querySelector(".el-table--scrollable-x .el-table__body-wrapper").scrollLeft = this.$refs[scrollBar].scrollLeft
+				})
+				this.$refs[scrollBar].addEventListener('resize', ()=>{
+					document.getElementById(`tableData${index}`).querySelector(".el-table--scrollable-x .el-table__body-wrapper").scrollLeft = this.$refs[scrollBar].scrollLeft
+				})
 			},
 			getPickerTime(dates,dateStrings){
 				this.dates = dates;
@@ -249,7 +449,7 @@
 					   (node) => getDates.indexOf(node.month) > -1 && node.name == this.inputName
 					 );
 					 this.$nextTick(() => {
-					 	this.$refs['table'].doLayout();
+					 	this.$refs['table1'].doLayout();
 					  })
 				}else{
 					setTimeout(() =>{
@@ -298,7 +498,7 @@
 				margin: 20px;
 
 				.condition-bar {
-					height: 65px;
+					height: 55px;
 					border: 1px solid #e6e6e6;
 					background: #fff;
 					display: flex;
@@ -429,11 +629,15 @@
 					background: #F4F6F9;
 					color: #333;
 				}
-				/deep/.el-table--scrollable-x ::-webkit-scrollbar {
-				  display: none;
+				/deep/.el-table--scrollable-x .el-table__body-wrapper {
+					overflow-x: hidden;
+				  // display: none;
 				}
 				/deep/ .el-tabs__content{
-					min-height: 400px;
+					min-height: 325px;
+				}
+				/deep/ .el-tabs__header{
+					margin: 0px;
 				}
 				#pane-first{
 					padding-bottom: 17px;

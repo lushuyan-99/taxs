@@ -101,6 +101,13 @@
 					value2:''
 				}
 			},
+			created() {
+				var date = new Date();
+				var year = date.getFullYear();
+				var month = date.getMonth();
+				var toMonth = year + "-" + (month + 1) ;
+				this.value2 = toMonth;
+			},
 			methods: {
 				
 			}

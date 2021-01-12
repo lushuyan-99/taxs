@@ -3,7 +3,7 @@
 		<home-header></home-header>
 		<el-container class='home-contanier'>
 			<el-aside class='home-aside'>
-				<el-menu router :default-active="activeIndex" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+				<el-menu router :default-active="activeIndex" class="el-menu-vertical-demo">
 					<!-- 所有路由 -->
 					<template v-for="(item,index) in asideList">
 						<el-submenu v-if="item.children && item.children.length" :index="item.path" :key="item.path">
@@ -39,11 +39,17 @@
 						</el-menu-item>
 					</template>
 				</el-menu>
+				<div class="tel">
+					<img src="../assets/img/icon_tel.png" />
+				</div>
 			</el-aside>
 			<el-container class='home-content'>
 				<router-view></router-view>
 			</el-container>
 		</el-container>
+		<div class="footer">
+			当前操作单位：浙江臻善科技股份有限公司[91330110736036137L]
+		</div>
 	</div>
 </template>
 
@@ -154,102 +160,134 @@
 	}
 </script>
 <style lang="less" scoped>
-	.home-contanier {
-		border: 0px solid red;
-		position: absolute;
-		left: 0;
-		right: 0px;
-		bottom: 0;
-		top: 80px;
-		overflow: hidden;
-		.home-aside {
-			width: 210px !important;
-			border-right: 1px solid #e6e6e6;
-			/deep/ .el-menu{
-				border-right: none;
-				.icon1{
-					width: 18px;
-					height: 18px;
-					margin-right: 8px;
-					display: inline-block;
-					background: url(../assets/aside/icon1.png) no-repeat center center;
+	.home{
+		border: 1px solid red;
+		.footer{
+			height: 20px;
+			line-height: 20px;
+			position: absolute;
+			left: 0;
+			right: 0px;
+			bottom: 0;
+			color: #676767;
+			font-size: 12px;
+			padding-left: 30px;
+			background:#EAEDEF url(../assets/img/icon_footer.png) no-repeat 10px 4px;
+		}
+		.home-contanier {
+			border: 0px solid red;
+			position: absolute;
+			left: 0;
+			right: 0px;
+			bottom: 0;
+			top: 80px;
+			overflow: hidden;
+			.home-aside {
+				width: 210px !important;
+				border-right: 1px solid #e6e6e6;
+				.tel{
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					position: absolute;
+					bottom: 60px;
+					left: 26px;
+					img{
+						display: block;
+					}
 				}
-				.icon2{
-					width: 18px;
-					height: 18px;
-					margin-right: 8px;
-					display: inline-block;
-					background: url(../assets/aside/icon2.png) no-repeat center center;
-				}
-				.icon3{
-					width: 18px;
-					height: 18px;
-					margin-right: 8px;
-					display: inline-block;
-					background: url(../assets/aside/icon3.png) no-repeat center center;
-				}
-				.icon4{
-					width: 18px;
-					height: 18px;
-					margin-right: 8px;
-					display: inline-block;
-					background: url(../assets/aside/icon4.png) no-repeat center center;
-				}
-				.icon5{
-					width: 18px;
-					height: 18px;
-					margin-right: 8px;
-					display: inline-block;
-					background: url(../assets/aside/icon5.png) no-repeat center center;
-				}
-				.icon6{
-					width: 18px;
-					height: 18px;
-					margin-right: 8px;
-					display: inline-block;
-					background: url(../assets/aside/icon6.png) no-repeat center center;
-				}
-				.icon7{
-					width: 18px;
-					height: 18px;
-					margin-right: 8px;
-					display: inline-block;
-					background: url(../assets/aside/icon7.png) no-repeat center center;
-				}
-				.icon8{
-					width: 18px;
-					height: 18px;
-					margin-right: 8px;
-					display: inline-block;
-					background: url(../assets/aside/icon8.png) no-repeat center center;
-				}
-				.icon9{
-					width: 18px;
-					height: 18px;
-					margin-right: 8px;
-					display: inline-block;
-					background: url(../assets/aside/icon9.png) no-repeat center center;
-				}
-				.icon10{
-					width: 18px;
-					height: 18px;
-					margin-right: 8px;
-					display: inline-block;
-					background: url(../assets/aside/icon10.png) no-repeat center center;
-				}
-				.icon11{
-					width: 18px;
-					height: 18px;
-					margin-right: 8px;
-					display: inline-block;
-					background: url(../assets/aside/icon11.png) no-repeat center center;
+				/deep/ .el-menu{
+					border-right: none;
+					.el-menu-item{
+						height: 35px;
+						line-height: 35px;
+						font-size: 12px;
+					}
+					.icon1{
+						width: 18px;
+						height: 18px;
+						margin-right: 8px;
+						display: inline-block;
+						background: url(../assets/aside/icon1.png) no-repeat center center;
+					}
+					.icon2{
+						width: 18px;
+						height: 18px;
+						margin-right: 8px;
+						display: inline-block;
+						background: url(../assets/aside/icon2.png) no-repeat center center;
+					}
+					.icon3{
+						width: 18px;
+						height: 18px;
+						margin-right: 8px;
+						display: inline-block;
+						background: url(../assets/aside/icon3.png) no-repeat center center;
+					}
+					.icon4{
+						width: 18px;
+						height: 18px;
+						margin-right: 8px;
+						display: inline-block;
+						background: url(../assets/aside/icon4.png) no-repeat center center;
+					}
+					.icon5{
+						width: 18px;
+						height: 18px;
+						margin-right: 8px;
+						display: inline-block;
+						background: url(../assets/aside/icon5.png) no-repeat center center;
+					}
+					.icon6{
+						width: 18px;
+						height: 18px;
+						margin-right: 8px;
+						display: inline-block;
+						background: url(../assets/aside/icon6.png) no-repeat center center;
+					}
+					.icon7{
+						width: 18px;
+						height: 18px;
+						margin-right: 8px;
+						display: inline-block;
+						background: url(../assets/aside/icon7.png) no-repeat center center;
+					}
+					.icon8{
+						width: 18px;
+						height: 18px;
+						margin-right: 8px;
+						display: inline-block;
+						background: url(../assets/aside/icon8.png) no-repeat center center;
+					}
+					.icon9{
+						width: 18px;
+						height: 18px;
+						margin-right: 8px;
+						display: inline-block;
+						background: url(../assets/aside/icon9.png) no-repeat center center;
+					}
+					.icon10{
+						width: 18px;
+						height: 18px;
+						margin-right: 8px;
+						display: inline-block;
+						background: url(../assets/aside/icon10.png) no-repeat center center;
+					}
+					.icon11{
+						width: 18px;
+						height: 18px;
+						margin-right: 8px;
+						display: inline-block;
+						background: url(../assets/aside/icon11.png) no-repeat center center;
+					}
 				}
 			}
-		}
-
-		.home-content {
-			width: 100%;
-			background:rgba(244,246,249);
+		
+			.home-content {
+				width: 100%;
+				background:rgba(244,246,249);
+			}
 		}
 	}
+	
 </style>
