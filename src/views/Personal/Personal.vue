@@ -33,7 +33,14 @@
 					<div class="con-time">
 						<span class="red-text">*</span>
 						税款所属期：
-						<el-date-picker v-model="value1" type="monthrange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+						<el-date-picker v-model="value1" 
+						 type="monthrange" 
+						 format="yyyy-MM"
+                         value-format="yyyy-MM" 
+						 range-separator="至"
+						 start-placeholder="开始日期" 
+						 end-placeholder="结束日期"
+						 @change="getPickerTime">
 						</el-date-picker>
 					</div>
 					<div class="el-row">
@@ -41,7 +48,7 @@
 							<span class="red-text">*</span>
 							姓名：
 						</div>
-						<el-input v-model="inputName" placeholder="请输入姓名"></el-input>
+						<el-input v-model="inputName" placeholder="请输入姓名" @change='inputChange'></el-input>
 						<div class="row-caption">
 							国籍/地区：
 						</div>
@@ -53,7 +60,7 @@
 						<el-input v-model="inputCode" placeholder="请输入证件号码"></el-input>
 					</div>
 					<div class="condition-btns">
-						<div class="btns active">查询</div>
+						<div class="btns active" @click="toSearch">查询</div>
 						<div class="btns">重置</div>
 					</div>
 				</div>
@@ -62,55 +69,67 @@
 			<div class="result-con">
 				<el-tabs v-model="activeName" @tab-click="handleClick">
 					<el-tab-pane label="汇总" name="first">
-						<!-- <el-table bordered show-summary :data="tableData" style="width: 100%" height="300">
-							<el-table-column fixed prop="date" label="税款所属期" width="150">
+						<el-table :data="tableData" id="tableData" ref='table' v-loading="loading" border :show-summary="isShowSummary" height="350" style="width: 100%;margin-top: 20px">
+							<el-table-column fixed prop="date" label="税款所属期" width="120">
 							</el-table-column>
-							<el-table-column fixed prop="project" label="所得项目" width="150">
+							<el-table-column fixed prop="sdxm" label="所得项目" width="150">
 							</el-table-column>
-							<el-table-column prop="name" label="收入" width="120">
+							<el-table-column prop="bqsr" label="收入" width="150">
 							</el-table-column>
-							<el-table-column prop="province" label="免税收入" width="120">
+							<el-table-column prop="bqmssr" label="免税收入">
 							</el-table-column>
-							<el-table-column prop="city" label="市区" width="120">
+							<el-table-column prop="bqjcfy" label="减除费用">
 							</el-table-column>
-							<el-table-column prop="address" label="地址" width="300">
+							<el-table-column prop="bqjbylbxf" label="基本养老保险费用" width="150">
 							</el-table-column>
-							<el-table-column prop="zip" label="邮编">
+							<el-table-column prop="bqjbylbxf2" label="基本医疗保险费用" width="150">
 							</el-table-column>
-						</el-table> -->
-						<el-table :data="tableData" border show-summary height="250" style="width: 100%;margin-top: 20px">
-							<el-table-column fixed prop="id" label="ID" width="180">
+							<el-table-column prop="bqsybxf" label="失业保险费用" width="120">
 							</el-table-column>
-							<el-table-column fixed prop="name" label="姓名">
+							<el-table-column prop="bqzfgjj" label="住房公积金" width="120">
 							</el-table-column>
-							<el-table-column prop="amount1" label="数值 1">
+							<el-table-column prop="bqnj" label="年金">
 							</el-table-column>
-							<el-table-column prop="amount2" label="数值 2">
+							<el-table-column prop="bqsyjkbx" label="商业健康保险" width="120">
 							</el-table-column>
-							<el-table-column prop="amount3" label="数值 3">
+							<el-table-column prop="bqsyylbx" label="税延养老保险" width="120">
 							</el-table-column>
-							<el-table-column prop="amount4" label="数值 2">
+							<el-table-column prop="bqqt" label="其他扣除">
 							</el-table-column>
-							<el-table-column prop="amount5" label="数值 3">
+							<el-table-column prop="bqccyz" label="税前扣除项目财产原值" width="240">
 							</el-table-column>
-							<el-table-column prop="amount6" label="数值 2">
+							<el-table-column prop="bqyxkcsj" label="税前扣除项目允许扣除的税费" width="240">
 							</el-table-column>
-							<el-table-column prop="amount7" label="数值 3">
+							<!-- 不确定如下 -->
+							<el-table-column prop="ljqtkc" label="税前扣除项目其他" width="200">
 							</el-table-column>
-							<el-table-column prop="amount8" label="数值 2">
+							<el-table-column prop="zykcjze" label="税前扣除项目准予扣除的捐赠额" width="240">
 							</el-table-column>
-							<el-table-column prop="amount9" label="数值 3">
+							<el-table-column prop="jmse" label="减免税额">
 							</el-table-column>
-							<el-table-column prop="amount10" label="数值 2">
+							<el-table-column prop="ynse" label="应扣缴税额" width="120">
 							</el-table-column>
-							<el-table-column prop="amount11" label="数值 3">
+							<el-table-column prop="yjse" label="已缴税额">
+							</el-table-column>
+							<el-table-column prop="ybtse" label="应补(退)税额" width="120">
 							</el-table-column>
 						</el-table>
+					    <div class="scroll-bar" ref='scrollBar'>
+							<div class="scroll-inner" id="scrollInner"></div>
+						</div>
 					</el-tab-pane>
-					<el-tab-pane label="综合所得申报表" name="second">综合所得申报表</el-tab-pane>
-					<el-tab-pane label="分类所得申报表" name="third">分类所得申报表</el-tab-pane>
-					<el-tab-pane label="非居民所得申报表" name="fourth">非居民所得申报表</el-tab-pane>
-					<el-tab-pane label="限售股所得申报表" name="five">限售股所得申报表</el-tab-pane>
+					<el-tab-pane label="综合所得申报表" name="second">
+						
+					</el-tab-pane>
+					<el-tab-pane label="分类所得申报表" name="third">
+						
+					</el-tab-pane>
+					<el-tab-pane label="非居民所得申报表" name="fourth">
+						
+					</el-tab-pane>
+					<el-tab-pane label="限售股所得申报表" name="five">
+						
+					</el-tab-pane>
 				</el-tabs>
 			</div>
 		</div>
@@ -118,6 +137,28 @@
 </template>
 
 <script>
+	import { personalData } from "../../js/enums.js";
+	import { personalData4 } from "../../js/enum4.js";
+	import { personalData5 } from "../../js/enum5.js";
+	import { personalData6 } from "../../js/enum6.js";
+	import { personalData7 } from "../../js/enum7.js";
+	import { personalData8 } from "../../js/enum8.js";
+	import { personalData9 } from "../../js/enum9.js";
+	import { personalData10 } from "../../js/enum10.js";
+	import { personalData11 } from "../../js/enum11.js";
+	import { personalData12 } from "../../js/enum12.js";
+	function getTime(arry){
+		let array = arry
+		console.log(array)
+		let len = array.length
+	   let aa = len-1;
+	   if(array[len-aa]-array[0]>1){
+		let bb = array[len-aa]-1
+		array.splice(1,0,bb)
+		getTime(array)
+	   }
+	    return array
+	}
 	export default {
 		name: 'Personal',
 		components: {
@@ -131,85 +172,96 @@
 				inputCity: '',
 				inputCode: '',
 				activeName: 'first',
-				tableData: [{
-					id: '12987122',
-					name: '王小虎',
-					amount1: '234',
-					amount2: '3.2',
-					amount3: 10,
-					amount4: '234',
-					amount5: '3.2',
-					amount6: 10,
-					amount7: '234',
-					amount8: '3.2',
-					amount9: 10,
-					amount10: '3.2',
-					amount11: 10
-				}, {
-					id: '12987123',
-					name: '王小虎',
-					amount1: '165',
-					amount2: '4.43',
-					amount3: 12,
-					amount4: '234',
-					amount5: '3.2',
-					amount6: 10,
-					amount7: '234',
-					amount8: '3.2',
-					amount9: 10,
-					amount10: '3.2',
-					amount11: 10
-				}, {
-					id: '12987124',
-					name: '王小虎',
-					amount1: '324',
-					amount2: '1.9',
-					amount3: 9,
-					amount4: '234',
-					amount5: '3.2',
-					amount6: 10,
-					amount7: '234',
-					amount8: '3.2',
-					amount9: 10,
-					amount10: '3.2',
-					amount11: 10
-				}, {
-					id: '12987125',
-					name: '王小虎',
-					amount1: '621',
-					amount2: '2.2',
-					amount3: 17,
-					amount4: '234',
-					amount5: '3.2',
-					amount6: 10,
-					amount7: '234',
-					amount8: '3.2',
-					amount9: 10,
-					amount10: '3.2',
-					amount11: 10
-				}, {
-					id: '12987126',
-					name: '王小虎',
-					amount1: '539',
-					amount2: '4.1',
-					amount3: 15,
-					amount4: '234',
-					amount5: '3.2',
-					amount6: 10,
-					amount7: '234',
-					amount8: '3.2',
-					amount9: 10,
-					amount10: '3.2',
-					amount11: 10
-				}]
+				loading:false,
+				originSourceList:[],  //原数据
+				tableData: [],  //查询过滤后的数据
+				dates:[],
+				isShowSummary:true
 			}
+		},
+		created() {
+			// let allArray = [...personalData,...personalData4];
+			let allArray = personalData.concat(personalData4).concat(personalData5).concat(personalData6).concat(personalData7).concat(personalData8).concat(personalData9).concat(personalData10).concat(personalData11).concat(personalData12);
+			this.originSourceList = JSON.parse(JSON.stringify(allArray));
+			this.originSourceList.map((item,index)=>{	//数据中添加月份，方便查询
+				item.month = this.getMonth(item.date);
+				item.name = item.name.replace(/\[.*?\]/g,'');
+			})
+			// 模拟表格滚动条
+			this.$nextTick(()=>{
+				document.getElementById("scrollInner").style.width = document.getElementById("tableData").querySelector(".el-table__header").style.width;
+				this.$refs.scrollBar.addEventListener('scroll', ()=>{
+					document.getElementById("tableData").querySelector(".el-table--scrollable-x .el-table__body-wrapper").scrollLeft = this.$refs.scrollBar.scrollLeft
+				})
+				this.$refs.scrollBar.addEventListener('resize', ()=>{
+					document.getElementById("tableData").querySelector(".el-table--scrollable-x .el-table__body-wrapper").scrollLeft = this.$refs.scrollBar.scrollLeft
+				})
+				
+				// this.$refs("table")
+			})
+			 
 		},
 		methods: {
 			handleCommand(command) {
 				// this.shFlag = command;
-			},
+			}, 
 			handleClick(tab, event) {
 				console.log(tab, event);
+			},
+			getPickerTime(dates,dateStrings){
+				this.dates = dates;
+			},
+			// 姓名输入框输入值后动态获取身份证号码填充
+			inputChange(value){
+				if(value && value !=''){
+					let curNode = this.originSourceList.find(item => item.name == value);
+					console.log(curNode)
+					this.inputCode = curNode.idCode
+				}else{
+					this.inputCode = ''
+				}
+			},
+			// 点击搜索按钮查询
+			toSearch(){
+				console.log(this.dates)
+				
+				if(this.dates == null || this.dates.length == 0){
+					this.$message.error('请选择月份！');
+					return false
+				}
+				if(this.inputName == ''){
+					this.$message.error('请输入姓名！');
+					return false
+				}
+				if(this.dates && this.dates.length>0){
+					this.loading = true;
+					this.isShowSummary = true
+					 let month0 = parseInt(this.dates[0].split("-")[1])
+					 let month1 = parseInt(this.dates[1].split("-")[1])
+					 let newDateTime = [month0,month1];
+					 let getDates = getTime(newDateTime)
+					 this.tableData = [];
+					 
+					 setTimeout(() =>{
+					 	this.loading = false;
+					 },500)
+					 this.tableData = this.originSourceList.filter(
+					   (node) => getDates.indexOf(node.month) > -1 && node.name == this.inputName
+					 );
+					 this.$nextTick(() => {
+					 	this.$refs['table'].doLayout();
+					  })
+				}else{
+					setTimeout(() =>{
+						this.loading = false;
+					},500)
+				}
+				
+				
+			},
+			getMonth(date){
+				let month = parseInt(date.split("-")[1])
+				return month
 			}
 		}
 	}
@@ -376,6 +428,26 @@
 				/deep/ .el-table th {
 					background: #F4F6F9;
 					color: #333;
+				}
+				/deep/.el-table--scrollable-x ::-webkit-scrollbar {
+				  display: none;
+				}
+				/deep/ .el-tabs__content{
+					min-height: 400px;
+				}
+				#pane-first{
+					padding-bottom: 17px;
+				}
+				.scroll-bar{
+					position: absolute;
+					// height: 17px;
+					width: 100%;
+					bottom: 0;
+					overflow: auto;
+					.scroll-inner{
+						height: 17px;
+						min-width: calc(100% + 1px);
+					}
 				}
 			}
 
